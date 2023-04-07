@@ -18,22 +18,9 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
  
-# def find_class(self, module, name):
-#     if name == 'SimpleLinearRegression':
-#         from train import SimpleLinearRegression
-#         return SimpleLinearRegression
-#     return super().find_class(module, name)
-# model_fn: Loads the model. (Optional)
 def model_fn(model_dir):
     print("LOADING MODEL")
     print("model_dir",os.listdir(model_dir))
-    # from train import SimpleLinearRegression
-    # import sys
-    # sys.path.append(model_dir)
-    # from train import SimpleLinearRegression
-    # model = SimpleLinearRegression()
-    # model = pickle.load(open(os.path.join(model_dir, "model.pkl"), 'rb'))
-    # model = CustomUnpickler(open(os.path.join(model_dir, "model.pkl"), 'rb')).load()
     with open(os.path.join(model_dir, "model.pkl"), 'rb') as s:
         model = dill.load(s)
     return model
@@ -46,7 +33,7 @@ def input_fn(serialized_input_data, content_type=JSON_CONTENT_TYPE):
         # return df['x'].values.reshape(-1,1)
         input_data = json.loads(serialized_input_data)["x"]
         df = pd.DataFrame(input_data)
-        return df['x'].values.reshape(-1,1)
+        return df.values.reshape(-1,1)
     elif content_type == CSV_CONTENT_TYPE:
         df = pd.read_csv(StringIO(serialized_input_data))
         return df['x'].values.reshape(-1,1)
