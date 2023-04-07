@@ -1,6 +1,6 @@
-## Layout of the SageMaker ModelBuild Project Template
+## Layout of the SageMaker ModelBuild Project
 
-The template provides a starting point for bringing your SageMaker Pipeline development to production.
+This is the code repository as part of a Project in SageMaker as the CI part of the MLOps. 
 
 ```
 |-- codebuild-buildspec.yml
@@ -28,7 +28,6 @@ The template provides a starting point for bringing your SageMaker Pipeline deve
 ```
 
 ## Start here
-This is the code repository as part of a Project in SageMaker as the CI part of the MLOps. 
 
 The following section provides an overview of how the code is organized and what you need to modify. In particular, `pipelines/pipelines.py` contains the core of the business logic for this problem. It has the code to express the ML steps involved in generating an ML model. You will also find the code for that supports preprocessing, training and evaluation steps in `preprocess.py` , `train.py` and `evaluate.py` files respectively. Additionally, we pack `inference.py` with pre-trained model data as a container to register it as a model on Sagemaker for inference, `pipelines/pipelines_batch.py` defines the batch inference pipeline.
 
