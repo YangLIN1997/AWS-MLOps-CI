@@ -1,5 +1,10 @@
 # Documentation
 
+
+Author: [Yang Lin](https://yanglin1997.github.io/)
+
+E-mail: linyang1997@yahoo.com.au
+
 Considering an enterprise machine learning system, the MLOps on AWS Sagemaker is developed. 
 
 Highlishts of the design:
@@ -13,7 +18,8 @@ The Architecture diagram:
 Response to the requirement:
 
 1. the Architecture diagram:
-![img/MLOps.png](MLOps.png)
+<!-- ![img/MLOps.png](img/MLOps.png) -->
+<div style="text-align:center"><img src ="img/MLOps.png" ,width=100/></div>
 
 2. linear regression model
 Vectorization is applied for both gradient descent and prediction.
