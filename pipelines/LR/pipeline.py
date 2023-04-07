@@ -185,7 +185,7 @@ def get_pipeline(
     
     from sagemaker.workflow.steps import CacheConfig
     # only enable cache during testing/developing the pipeline, have to disable it for production otherwise steps are skipped
-    cache_config = CacheConfig(enable_caching=False, expire_after="90d")
+    cache_config = CacheConfig(enable_caching=True, expire_after="90d")
     
     # parameters for pipeline execution
     processing_instance_count = ParameterInteger(name="ProcessingInstanceCount", default_value=1)
