@@ -23,8 +23,8 @@ class SimpleLinearRegression:
     def __loss(self, y, y_hat):
         """
 
-        :param y: the actual output on the training set
-        :param y_hat: the predicted output on the training set
+        :param y: the actual output on the training set, shape (n,)
+        :param y_hat: the predicted output on the training set, shape (n,)
         :return:
             loss: the sum of squared error
 
@@ -42,7 +42,9 @@ class SimpleLinearRegression:
     def __init_weights(self, X):
         """
 
-        :param X: The training set
+        :param X: The training set, shape (n,d)
+        w: The weight, shape (1,d)
+        b: The intercept, shape (1,)
         """
         weights = np.random.normal(size=X.shape[1] + 1)
         self.W = weights[:X.shape[1]].reshape(-1, X.shape[1])
@@ -51,9 +53,9 @@ class SimpleLinearRegression:
     def __sgd(self, X, y, y_hat):
         """
 
-        :param X: The training set
-        :param y: The actual output on the training set
-        :param y_hat: The predicted output on the training set
+        :param X: The training set, shape (n,d)
+        :param y: The actual output on the training set, shape (n,)
+        :param y_hat: The predicted output on the training set, shape (n,)
         :return:
             sets updated W and b to the instance Object (self)
         """
@@ -74,8 +76,8 @@ class SimpleLinearRegression:
     def fit(self, X, y):
         """
 
-        :param X: The training set
-        :param y: The true output of the training set
+        :param X: The training set, shape (n,d)
+        :param y: The true output of the training set, shape (n,)
         :return:
         """
         self.__init_weights(X)
@@ -92,12 +94,14 @@ class SimpleLinearRegression:
     def predict(self, X):
         """
 
-        :param X: The training dataset
+        :param X: The training dataset, shape (n,d)
+        w: The weight, shape (1,d)
+        b: The intercept, shape (1,)
         :return:
-            y_hat: the predicted output
+            y_hat: the predicted output, shape (n,)
         """
         #ToDO calculate the predicted output y_hat. remember the function of a line is defined as y = WX + b
-        y_hat = X.dot(self.W) + self.b
+        y_hat = X.dot(self.W.T) + self.b
         return y_hat
     
 
