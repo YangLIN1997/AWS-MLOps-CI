@@ -19,102 +19,6 @@ import sys
 import traceback
 
 from pipelines._utils import get_pipeline_driver, convert_struct, get_pipeline_custom_tags
-# ===============
-
-import boto3
-import sagemaker
-from sagemaker import get_execution_role, session
-
-from sagemaker.estimator import Estimator
-from sagemaker.inputs import TrainingInput
-from sagemaker.model_metrics import (
-    MetricsSource,
-    ModelMetrics,
-)
-from sagemaker.processing import (
-    ProcessingInput,
-    ProcessingOutput,
-    ScriptProcessor,
-)
-from sagemaker.sklearn.processing import SKLearnProcessor
-from sagemaker.workflow.conditions import ConditionLessThanOrEqualTo
-from sagemaker.workflow.condition_step import (
-    ConditionStep,
-)
-from sagemaker.workflow.functions import (
-    JsonGet,
-)
-from sagemaker.workflow.parameters import (
-    ParameterInteger,
-    ParameterString,
-)
-from sagemaker.workflow.pipeline import Pipeline
-from sagemaker.workflow.properties import PropertyFile
-from sagemaker.workflow.steps import (
-    ProcessingStep,
-    TrainingStep,TransformStep,CreateModelStep
-)
-from sagemaker.workflow.model_step import ModelStep
-from sagemaker.model import Model
-from sagemaker.workflow.pipeline_context import PipelineSession
-from sagemaker.pytorch.estimator import PyTorch
-from sagemaker.inputs import TransformInput, CreateModelInput
-from sagemaker.workflow.steps import CacheConfig
-import os
-def batch_inference_pipeline(role=None):
-    
-    
-    sm_client = boto3.client("sagemaker")
-    model_package_arn=sm_client.list_model_packages(
-                ModelPackageGroupName="mlops-yl-p-yu2ungcsmceg",
-                ModelApprovalStatus="Approved",
-                SortBy="CreationTime",
-                MaxResults=100,
-            )["ModelPackageSummaryList"][0]["ModelPackageArn"]
-    model = sagemaker.model.ModelPackage(model_package_arn=model_package_arn,role=role)
-    
-    batch_input = "s3://sagemaker-project-p-yu2ungcsmceg/batch_data/X_test.csv"
-    batch_output = "s3://sagemaker-project-p-yu2ungcsmceg/batch_data/"
-    transform_job = model.transformer(instance_count = 1,     
-                                      instance_type = 'ml.m5.large',      
-                                      strategy='MultiRecord',  
-                                      assemble_with='Line', 
-                                      output_path = batch_output, 
-                                      accept="text/csv",
-                                      env = {'SAGEMAKER_MODEL_SERVER_TIMEOUT' : '3600' },
-                                      max_concurrent_transforms=1, max_payload=6)    
-    step_transform = TransformStep(name="batch_inference",transformer = transform_job,
-                                   inputs =TransformInput(data=batch_input,data_type="S3Prefix",
-                                    input_filter="$[0]",# no index
-                                    # input_filter="$[1,5]",
-                                    content_type="text/csv",split_type="Line")
-    )
-    
-    create_model_pipeline = Pipeline(name="LRBatchInferencePipeline", steps=[step_transform],
-            parameters=[
-               batch_input,batch_output
-            ],)
-    
-    try:
-        create_model_pipeline.create(role_arn=role)
-        print(f"\n###### Created DeBERTaV3BatchInferencePipeline.")
-    except:
-        print(f"\n###### DeBERTaV3BatchInferencePipeline was created.")
-    create_model_pipeline.update(role_arn=role)
-
-    execution = create_model_pipeline.start(execution_display_name="createBatchInferencepipeline")
-    print(f"\n###### Execution started with PipelineExecutionArn: {execution.arn}")
-
-    print("Waiting for the execution to finish...")
-
-    # Setting the attempts and delay (in seconds) will modify the overall time the pipeline waits. 
-    # If the execution is taking a longer time, update these parameters to a larger value.
-    # Eg: The total wait time is calculated as 60 * 120 = 7200 seconds (2 hours)
-    execution.wait(max_attempts=120, delay=60)
-
-    print("\n#####Execution completed. Execution step details:")
-
-    print(execution.list_steps())
 
     
 
@@ -208,10 +112,6 @@ def main():  # pragma: no cover
         print("\n#####Execution completed. Execution step details:")
 
         print(execution.list_steps())
-        
-        
-        # print("###### Creating/updating a SageMaker Batch Inference Pipeline:")
-        # batch_inference_pipeline(args.role_arn)
         
     except Exception as e:  # pylint: disable=W0703
         print(f"Exception: {e}")

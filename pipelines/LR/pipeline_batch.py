@@ -1,10 +1,7 @@
-"""Workflow pipeline script for Aiabetes pipeline.
-                                                                                 . -ModelStep
-                                                                                .
-    Process-> DataQualityCheck/DataBiasCheck -> Train -> Evaluate -> Condition .
-                                                                                 .
-                                                                                   . -(stop)
-                                                  
+"""Workflow pipeline script for batch inference pipeline, 1 step is all we need:
+
+
+    batch_inference                                               
 
 
 Implements a get_pipeline(**kwargs) method.

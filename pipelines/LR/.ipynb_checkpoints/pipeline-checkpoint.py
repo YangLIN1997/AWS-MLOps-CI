@@ -19,6 +19,7 @@ from sagemaker.estimator import Estimator
 from sagemaker.inputs import TrainingInput, CreateModelInput, TransformInput
 from sagemaker.model import Model
 from sagemaker.transformer import Transformer
+from sagemaker.tuner import HyperparameterTuner
 
 from sagemaker.model_metrics import (
     MetricsSource,
@@ -49,8 +50,10 @@ from sagemaker.workflow.properties import PropertyFile
 from sagemaker.workflow.steps import (
     ProcessingStep,
     TrainingStep,
+    TuningStep,
     CreateModelStep,
-    TransformStep
+    TransformStep,
+    CacheConfig
 )
 from sagemaker.workflow.step_collections import RegisterModel
 from sagemaker.workflow.check_job_config import CheckJobConfig
@@ -183,7 +186,6 @@ def get_pipeline(
 
     pipeline_session = get_pipeline_session(region, default_bucket)
     
-    from sagemaker.workflow.steps import CacheConfig
     # only enable cache during testing/developing the pipeline, have to disable it for production otherwise steps are skipped
     cache_config = CacheConfig(enable_caching=True, expire_after="90d")
     
@@ -193,6 +195,8 @@ def get_pipeline(
         # name="ModelApprovalStatus", default_value="PendingManualApproval"
         name="ModelApprovalStatus", default_value="Approved"
     )
+    
+    # not using input csv, we use sklearn to download data instead
     input_data = ParameterString(
         name="InputDataUrl",
         default_value="s3://dataset.csv",
@@ -248,12 +252,49 @@ def get_pipeline(
                         sagemaker_session=pipeline_session,
                         role=role,
                     )
+    
+    
+#     LR_train.set_hyperparameters(
+#         lr=1e-1,
+#         iterations=1.5e4,
+#     )
 
-    LR_train.set_hyperparameters(
-        lr=1e-1,
-        iterations=1.5e4,
-    )
+#     hyperparameter_ranges = {
+#         "alpha": ContinuousParameter(0.001, 0.1, scaling_type="Logarithmic"),
+#         "iterations": ContinuousParameter(0.01, 10, scaling_type="Logarithmic"),
+#     }
+    
+#     tuner = HyperparameterTuner(estimator = LR_train, 
+#                                 objective_metric_name ="validation:rmse" ,
+#                                 hyperparameter_ranges=hyperparameter_ranges,
+#                                 max_jobs=3,
+#                                 max_parallel_jobs=3,
+#                                 strategy="Random",
+#                                 objective_type="Minimize",
+#                                 sagemaker_session=PipelineSession()
+#                                )
 
+#     hpo_args = tuner_log.fit(
+#         inputs={
+#             "train": TrainingInput(
+#                 s3_data=step_process.properties.ProcessingOutputConfig.Outputs["train"].S3Output.S3Uri,
+#                 content_type="text/csv",
+#             ),
+#             "validation": TrainingInput(
+#                 s3_data=step_process.properties.ProcessingOutputConfig.Outputs[
+#                     "valid"
+#                 ].S3Output.S3Uri,
+#                 content_type="text/csv",
+#             ),
+#         }
+#     )
+
+#     step_tuning = TuningStep(
+#         name="HPTuning",
+#         step_args=hpo_args,
+#         cache_config=cache_config,
+#     )
+    
     step_args = LR_train.fit(
         inputs={
             "train": TrainingInput(
