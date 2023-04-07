@@ -1,3 +1,66 @@
+# Documentation
+
+Considering an enterprise machine learning system, the MLOps on AWS Sagemaker is developed. 
+
+Highlishts of the design:
+- Use of IaC for end-to-end code CICD build, pipelines build and model deployment.
+- Re-package of model as container for Asynchronous and Synchronous inference.
+- Versioning and monitoring code, pipeline and model.
+- Enable data capture for the real-time endpoint
+
+The Architecture diagram:
+
+Response to the requirement:
+
+1. the Architecture diagram:
+![img/img.png](img.png)
+
+2. linear regression model
+Vectorization is applied for both gradient descent and prediction.
+time and memory complexity
+Final result gives a R2 score of 0.47.
+
+3. an API for inference
+The Cloudformation is employed to deploy the lastes approved model. The 'staging' model is deployed first and once its approved manually, the same model would be deployed on better computational resource for 'production'. Please see 'https://github.com/YangLIN1997/model-deploy' repository. 
+
+- `POST /stream` : it can be invoked with 'https://lbe1si5il9.execute-api.ap-southeast-2.amazonaws.com/production/stream'. It takes single record e.g. json.dumps({"x": [[0.3]]}), and returns a prediction, e.g. 434.08.
+- `POST /batch` : it can be invoked with 'https://lbe1si5il9.execute-api.ap-southeast-2.amazonaws.com/production/batch'. It takes multiple records e.g. json.dumps({"x": [[0.3],[0.3]]}), and returns a prediction, e.g.  [[434.0765649977469], [434.0765649977469]]. 
+For the use case study, the python script tests both endpoints.
+
+Additionally, a batch inference that cable to make prediction for a batch of files peoridically is also necessary. Hence a batch transform pipeline is build with lates approved model and cable to make predictions. 
+
+4. package code into a python package
+Yes, the 'train.py' is packaged. Also the 'dill' package is used to package trained model with object information. 
+
+5. package code into a container
+Yes, all steps in the pipeline are containerized.
+
+6. CICD
+Yes.
+
+7. componenets for an enterprise machine learning system
+Except for the highlights listed at the beginning, the system still: 
+Critical to have: monitoring system
+Nice to have: 
+
+8. end to end
+Yes.
+
+9. unit tests or integration tests
+Yes. For the endpoint deployment, test is employed on the 'staging' endpoint to check if it is in service, has data capture enbaled and able to be invoked. 
+
+10. security/monitoring
+
+11. document
+Yes. 
+
+12. service
+From the code perspective, it is well packaged and documented.
+From the scalability perspective, it is developed on the Sagemaker plantform with versioning and monitoring ability and is good for multiple DS/MLE to work together. The training and deployment can also be scaled up with more instance and data parallel for training and auto-scaling policy for endpoints.
+
+13. production ML system
+
+
 ## Layout of the SageMaker ModelBuild Project
 
 This is the code repository as part of a Project in SageMaker as the CI part of the MLOps. 
