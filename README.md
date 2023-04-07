@@ -13,7 +13,7 @@ The Architecture diagram:
 Response to the requirement:
 
 1. the Architecture diagram:
-![img/img.png](img.png)
+![img/MLOps.png](MLOps.png)
 
 2. linear regression model
 Vectorization is applied for both gradient descent and prediction.
@@ -25,6 +25,8 @@ The Cloudformation is employed to deploy the lastes approved model. The 'staging
 
 - `POST /stream` : it can be invoked with 'https://lbe1si5il9.execute-api.ap-southeast-2.amazonaws.com/production/stream'. It takes single record e.g. json.dumps({"x": [[0.3]]}), and returns a prediction, e.g. 434.08.
 - `POST /batch` : it can be invoked with 'https://lbe1si5il9.execute-api.ap-southeast-2.amazonaws.com/production/batch'. It takes multiple records e.g. json.dumps({"x": [[0.3],[0.3]]}), and returns a prediction, e.g.  [[434.0765649977469], [434.0765649977469]]. 
+For both API, the key ("x-api-key") is "YangLinYangLinYangLin".
+
 For the use case study, the python script tests both endpoints.
 
 Additionally, a batch inference that cable to make prediction for a batch of files peoridically is also necessary. Hence a batch transform pipeline is build with lates approved model and cable to make predictions. 
@@ -50,6 +52,7 @@ Yes.
 Yes. For the endpoint deployment, test is employed on the 'staging' endpoint to check if it is in service, has data capture enbaled and able to be invoked. 
 
 10. security/monitoring
+Yes, even API endpoint requires the API key and the post usage is also limited.
 
 11. document
 Yes. 
