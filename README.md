@@ -41,7 +41,7 @@ The codebuild execution instructions.
 ```
 
 <br/><br/>
-The pipeline artifacts, which includes a pipeline module defining the required `get_pipeline` method that returns an instance of a SageMaker pipeline, a preprocessing script that is used in feature engineering, and a model evaluation script to measure the Mean Squared Error of the model that's trained by the pipeline. 
+The pipeline artifacts, which includes a pipeline module defining the required `get_pipeline` method that returns an instance of a SageMaker pipeline, a preprocessing script that is used in feature engineering, and a model evaluation script to measure the Mean Squared Error of the model that's trained by the pipeline. Note that the 'pipeline_batch.py' creates the batch inference pipeline that transforms the csv files in "s3://sagemaker-project-p-unfbxwxpd29d/batchdata/input/" and save the outputs at "s3://sagemaker-project-p-unfbxwxpd29d/batchdata/output/".
 
 ```
 |-- pipelines

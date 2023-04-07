@@ -44,7 +44,7 @@ def input_fn(serialized_input_data, content_type=JSON_CONTENT_TYPE):
         # input_data = json.loads(serialized_input_data)
         # df = pd.io.json.json_normalize(input_data)
         # return df['x'].values.reshape(-1,1)
-        input_data = json.loads(query)["x"]
+        input_data = json.loads(serialized_input_data)["x"]
         df = pd.DataFrame(input_data)
         return df['x'].values.reshape(-1,1)
     elif content_type == CSV_CONTENT_TYPE:
@@ -68,3 +68,5 @@ def output_fn(prediction_output, accept=JSON_CONTENT_TYPE):
     elif accept == CSV_CONTENT_TYPE:
         return json.dumps({'y_hat':prediction_output})
     raise Exception("Requested unsupported ContentType in Accept: " + accept)
+    
+    
