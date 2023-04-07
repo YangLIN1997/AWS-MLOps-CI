@@ -46,6 +46,7 @@ class SimpleLinearRegression:
         w: The weight, shape (1,d)
         b: The intercept, shape (1,)
         """
+        np.random.seed(0)
         weights = np.random.normal(size=X.shape[1] + 1)
         self.W = weights[:X.shape[1]].reshape(-1, X.shape[1])
         self.b = weights[-1]
