@@ -8,7 +8,7 @@
                                                    -> CreateModel-> ModelBiasCheck/ModelExplainabilityCheck
                                                            |
                                                            |
-                                                            -> BatchTransform -> ModelQualityCheck
+                                                            -> BatchTransform 
 
 Implements a get_pipeline(**kwargs) method.
 """
