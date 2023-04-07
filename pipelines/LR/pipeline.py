@@ -309,7 +309,7 @@ def get_pipeline(
     step_train = TrainingStep(
         name="TrainAiabetesModel",
         step_args=step_args,
-        # cache_config=cache_config,
+        cache_config=cache_config,
     )
 
 
