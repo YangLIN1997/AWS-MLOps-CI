@@ -210,9 +210,9 @@ def main():  # pragma: no cover
         print(execution.list_steps())
         
         
-        print("###### Creating/updating a SageMaker Batch Inference Pipeline:")
-        batch_inference_pipeline(args.role_arn)
-        # Todo print the status?
+        # print("###### Creating/updating a SageMaker Batch Inference Pipeline:")
+        # batch_inference_pipeline(args.role_arn)
+        
     except Exception as e:  # pylint: disable=W0703
         print(f"Exception: {e}")
         traceback.print_exc()

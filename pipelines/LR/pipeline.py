@@ -1,14 +1,11 @@
-"""Example workflow pipeline script for Aiabetes pipeline.
+"""Workflow pipeline script for Aiabetes pipeline.
                                                                                  . -ModelStep
                                                                                 .
     Process-> DataQualityCheck/DataBiasCheck -> Train -> Evaluate -> Condition .
-                                                  |                              .
-                                                  |                                . -(stop)
-                                                  |
-                                                   -> CreateModel-> ModelBiasCheck/ModelExplainabilityCheck
-                                                           |
-                                                           |
-                                                            -> BatchTransform 
+                                                                                 .
+                                                                                   . -(stop)
+                                                  
+
 
 Implements a get_pipeline(**kwargs) method.
 """
