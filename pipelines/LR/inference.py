@@ -41,14 +41,14 @@ def model_fn(model_dir):
 # input_fn: Converts the incoming request payload into a numpy array.
 def input_fn(serialized_input_data, content_type=JSON_CONTENT_TYPE):
     if content_type == JSON_CONTENT_TYPE:
-        input_data = json.loads(serialized_input_data)
-        df = pd.io.json.json_normalize(input_data)
-        # df['x'] = df['x'].apply(lambda x: clean_text(str(x))).values
-        print(df)
+        # input_data = json.loads(serialized_input_data)
+        # df = pd.io.json.json_normalize(input_data)
+        # return df['x'].values.reshape(-1,1)
+        input_data = json.loads(query)["x"]
+        df = pd.DataFrame(input_data)
         return df['x'].values.reshape(-1,1)
     elif content_type == CSV_CONTENT_TYPE:
         df = pd.read_csv(StringIO(serialized_input_data))
-        # df['x'] = df['x'].apply(lambda x: clean_text(str(x))).values
         return df['x'].values.reshape(-1,1)
     else:
         raise Exception("Requested unsupported ContentType in Accept: " + content_type)
