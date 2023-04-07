@@ -44,6 +44,7 @@ def input_fn(serialized_input_data, content_type=JSON_CONTENT_TYPE):
         input_data = json.loads(serialized_input_data)
         df = pd.io.json.json_normalize(input_data)
         # df['x'] = df['x'].apply(lambda x: clean_text(str(x))).values
+        print(df)
         return df['x'].values.reshape(-1,1)
     elif content_type == CSV_CONTENT_TYPE:
         df = pd.read_csv(StringIO(serialized_input_data))
