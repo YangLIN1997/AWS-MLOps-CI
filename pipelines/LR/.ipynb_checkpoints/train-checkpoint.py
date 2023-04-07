@@ -130,8 +130,8 @@ if __name__ =='__main__':
     lr = args.lr
     model = SimpleLinearRegression()
     logger.info("Loading training data.")
-    X_train = pd.read_csv(os.path.join(training_dir,"diabetes_X_train.csv")).values.reshape(-1,1)
-    y_train = pd.read_csv(os.path.join(training_dir,"diabetes_y_train.csv")).values.reshape(-1,1)
+    X_train = pd.read_csv(os.path.join(training_dir,"diabetes_X_train.csv"), header = None).values.reshape(-1,1)
+    y_train = pd.read_csv(os.path.join(training_dir,"diabetes_y_train.csv"), header = None).values.reshape(-1,1)
     # df = pd.read_csv(os.path.join(training_dir,"train.csv"))
     # X_train = df.values[:,0].reshape(-1,1) 
     # y_train = df.values[:,1].reshape(-1,1)
