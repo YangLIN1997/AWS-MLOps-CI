@@ -23,8 +23,7 @@ Response to the requirement:
 
 2. linear regression model
 
-Vectorization is applied for both gradient descent and prediction, see 'pipelines/LR/train.py'.
-time and memory complexity
+Vectorization is applied for both gradient descent and prediction, see 'pipelines/LR/train.py'. 
 Final result gives a R2 score of 0.47.
 <div style="text-align:center"><img src ="img/eval_result.png" ,width=100/></div>
 
