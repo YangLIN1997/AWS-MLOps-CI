@@ -6,9 +6,7 @@ import pandas as pd
 import logging
 import pathlib
 import os
-import pickle
 import dill
-import json
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
@@ -132,13 +130,13 @@ if __name__ =='__main__':
     logger.info("Loading training data.")
     X_train = pd.read_csv(os.path.join(training_dir,"diabetes_X_train.csv"), header = None).values.reshape(-1,1)
     y_train = pd.read_csv(os.path.join(training_dir,"diabetes_y_train.csv"), header = None).values.reshape(-1,1)
-    # df = pd.read_csv(os.path.join(training_dir,"train.csv"))
-    # X_train = df.values[:,0].reshape(-1,1) 
-    # y_train = df.values[:,1].reshape(-1,1)
     logger.info(f"shape of diabetes_X_train: {X_train.shape}")
     logger.info(f"shape of diabetes_y_train: {y_train.shape}")
+    logger.info("Fitting the model.")
     model.fit(X_train,y_train)
     
-    
+    logger.info("Saving the model as model.pkl.")
     with open(os.path.join(model_dir,'model.pkl'), 'wb') as s:
         dill.dump(model, s)
+        
+    logger.info("Training job done.")

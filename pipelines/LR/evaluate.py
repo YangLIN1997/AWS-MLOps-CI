@@ -2,7 +2,6 @@
 import json
 import logging
 import pathlib
-import pickle
 import subprocess
 subprocess.call(['pip', 'install', 'dill'])
 import dill
@@ -31,9 +30,6 @@ if __name__ == "__main__":
     y_test_path = "/opt/ml/processing/test/diabetes_y_test.csv"
     X_test = pd.read_csv(X_test_path, header = None).values.reshape(-1,1)
     y_test = pd.read_csv(y_test_path, header = None).values.reshape(-1,1)
-    # df = pd.read_csv(os.path.join("/opt/ml/processing/test/test.csv"))
-    # X_test = df.values[:,0].reshape(-1,1)
-    # y_test = df.values[:,1].reshape(-1,1)
 
     logger.info("Performing predictions against test data.")
     y_hat = model.predict(X_test)

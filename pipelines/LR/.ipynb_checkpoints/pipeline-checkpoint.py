@@ -229,8 +229,6 @@ def get_pipeline(
     )
 
 
-
-
     model_path = f"s3://{default_bucket}/{base_job_prefix}/DiabetesTrain"
     image_uri = sagemaker.image_uris.retrieve(
         framework="sklearn",
