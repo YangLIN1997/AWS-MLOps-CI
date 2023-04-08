@@ -2,22 +2,22 @@ import subprocess
 import requests
 import json
 try:
+    import numpy as np
+except:
+    subprocess.call(['pip', 'install', 'numpy', '--upgrade'])
+    import numpy as np
+try:
     import pandas as pd
 except:
-    subprocess.call(['pip', 'install', 'pandas'])
+    subprocess.call(['pip', 'install', 'pandas', '--upgrade'])
     import pandas as pd
 try:
     from sklearn.metrics import r2_score
     from sklearn.datasets import load_diabetes
 except:
-    subprocess.call(['pip', 'install', 'scikit-learn'])
+    subprocess.call(['pip', 'install', 'scikit-learn', '--upgrade'])
     from sklearn.metrics import r2_score
     from sklearn.datasets import load_diabetes
-try:
-    import numpy as np
-except:
-    subprocess.call(['pip', 'install', 'numpy'])
-    import numpy as np
 
 url_stream = 'https://lbe1si5il9.execute-api.ap-southeast-2.amazonaws.com/production/stream'
 url_batch = 'https://lbe1si5il9.execute-api.ap-southeast-2.amazonaws.com/production/batch'
