@@ -1,5 +1,6 @@
 # Documentation
 
+(resource in AWS already deleted)
 
 Author: [Yang Lin](https://yanglin1997.github.io/)
 
