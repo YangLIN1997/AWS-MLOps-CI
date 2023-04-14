@@ -13,7 +13,7 @@ import os
 
 import boto3
 import sagemaker
-import sagemaker.session
+import sagemaker.session   
 
 from sagemaker.estimator import Estimator
 from sagemaker.inputs import TrainingInput, CreateModelInput, TransformInput
