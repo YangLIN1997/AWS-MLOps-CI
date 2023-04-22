@@ -1,4 +1,4 @@
-# Documentation
+# MLOps on AWS - CI
 
 (resource in AWS already deleted)
 
